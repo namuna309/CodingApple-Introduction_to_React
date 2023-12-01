@@ -6,11 +6,14 @@ import { useState } from 'react';
 function App() {
 
   let [title, changeTitle] = useState(['남자 코트 추천', '강남 우동맛집', '파이썬독학']);  // a -> state에 저장했던 자료, b -> state 변경도와주는 함수
-  let [likes, up] = useState(0);
+  let [likes, setlikes] = useState([0, 0, 0]);
   let [modal, setModal] = useState(false);
 
-  // Destructuring 문법
-  var [a, c] = [1, 2];
+  function upCnt(i) {
+    let copy_likes = [...likes];
+    copy_likes[i] += 1;
+    setlikes(copy_likes);
+  }
 
   return (
     <div className="App">
@@ -28,45 +31,18 @@ function App() {
         sortedTitles.sort();
         changeTitle(sortedTitles);
       }}>제목 내림차순 정렬</button>
-      <div className="list">
-        {/* onClick={} 안엔 함수이름 또는 콜백함수를 넣어야함 */}
-        {/* state 변경은 등호로 되지 않음 -> state 변경 함수 활용 */}
-        <h4>{title[0]} <span onClick={() => { up(++likes) }}>👍</span> {likes} </h4>
-        <p>2월17일 발행</p>
-      </div>
-      <div className="list">
-        <h4>{title[1]}</h4>
-        <p>2월17일 발행</p>
-      </div>
-      <div className="list">
-        <h4 onClick={() => { setModal(!modal) }}>{title[2]}</h4>
-        <p>2월17일 발행</p>
-      </div>
       {
-        modal ? <Modal/> : null
+        title.map(function(t, i) {
+          return (
+            <div className="list">
+              <h4>{t}<span onClick = {() => upCnt(i) }>👍</span> { likes[i] } </h4>
+              <p>2월17일 발행</p>
+            </div>
+          )
+        })
       }
     </div>
   );
-}
-
-function Modal() {
-  return (
-    <div className="modal">
-      <h4>제목</h4>
-      <p>날짜</p>
-      <p>상세내용</p>
-    </div>
-  )
-}
-
-let Modal2 = () => {
-  return (
-    <div className="modal">
-      <h4>제목</h4>
-      <p>날짜</p>
-      <p>상세내용</p>
-    </div>
-  )
 }
 
 export default App;
