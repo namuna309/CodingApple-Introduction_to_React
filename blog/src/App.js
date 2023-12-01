@@ -1,16 +1,13 @@
-import logo from './logo.svg';
+/* eslint-disable */
+
 import './App.css';
 import { useState } from 'react';
 
 function App() {
 
-  let post = '강남 우동 맛집'; //대충 서버에서 가져온 실제 데이터
-  let [title, b] = useState(['남자 코트 추천', '강남 우동맛집', '파이썬독학']);  // a -> state에 저장했던 자료, b -> state 변경도와주는 함수
-  
-  // 일반 문법
-  let num = [1, 2];
-  var a = num[0];
-  var c = num[1]
+  let [title, changeTitle] = useState(['남자 코트 추천', '강남 우동맛집', '파이썬독학']);  // a -> state에 저장했던 자료, b -> state 변경도와주는 함수
+  let newTitle = ['여자 코트 추천', '강남 우동맛집', '파이썬독학'];
+  let [likes, up] = useState(0);
 
   // Destructuring 문법
   var [a, c] = [1, 2];
@@ -18,10 +15,13 @@ function App() {
   return (
     <div className="App">
       <div className="black-nav">
-        <h4>ReactBlog</h4>
+        {/* 숙제: 버튼누르면 첫 글이 '여자코튼 추천'으로 바뀌는 기능 만들기 */}
+        <h4>ReactBlog <span onClick={() => changeTitle(newTitle)}>성별</span></h4>
       </div>
       <div className="list">
-        <h4>{ title[0] }</h4>
+        {/* onClick={} 안엔 함수이름 또는 콜백함수를 넣어야함 */}
+        {/* state 변경은 등호로 되지 않음 -> state 변경 함수 활용 */}
+        <h4>{ title[0] } <span onClick={() => { up(++likes) }}>👍</span> {likes} </h4> 
         <p>2월17일 발행</p>
       </div>
       <div className="list">
