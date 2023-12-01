@@ -7,6 +7,7 @@ function App() {
 
   let [title, changeTitle] = useState(['남자 코트 추천', '강남 우동맛집', '파이썬독학']);  // a -> state에 저장했던 자료, b -> state 변경도와주는 함수
   let [likes, up] = useState(0);
+  let [modal, setModal] = useState(false);
 
   // Destructuring 문법
   var [a, c] = [1, 2];
@@ -38,12 +39,12 @@ function App() {
         <p>2월17일 발행</p>
       </div>
       <div className="list">
-        <h4>{title[2]}</h4>
+        <h4 onClick={() => { setModal(!modal) }}>{title[2]}</h4>
         <p>2월17일 발행</p>
       </div>
-      <Modal/>
-      <Modal2/>
-      {/* <Modal></Modal> */}
+      {
+        modal ? <Modal/> : null
+      }
     </div>
   );
 }
@@ -70,12 +71,7 @@ let Modal2 = () => {
 
 export default App;
 
-
-// 컴퍼넌트로 만들면 좋은 사항
-// 1. 반복적인 html 축약할 때
-// 2. 큰 페이지들
-// 3. 자주변경되는 것들
-
-// 컴포넌트의 단점: state 가져다쓸 때 문제생김 -> A 함수에 있던 변수를 B에 가져다 쓸 수 없음
-
-// 결국 App도 컴포넌트
+// 동적 UI 만드는 스텝
+// 1. HTML CSS로 미리 디자인 완성
+// 2. UI의 현재 상태를 state로 저장
+// 3. state에 따라 UI가 어떻게 보일지 작성
