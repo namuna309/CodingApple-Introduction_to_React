@@ -8,6 +8,7 @@ function App() {
   let [title, changeTitle] = useState(['남자 코트 추천', '강남 우동맛집', '파이썬독학']);  // a -> state에 저장했던 자료, b -> state 변경도와주는 함수
   let [likes, setlikes] = useState([0, 0, 0]);
   let [modal, setModal] = useState(false);
+  let [index, changeIndex] = useState(0)
 
   function upCnt(i) {
     let copy_likes = [...likes];
@@ -39,14 +40,14 @@ function App() {
         title.map(function(t, i) {
           return (
             <div className="list">
-              <h4 onClick={() => {setModal(!modal)}}>{t}<span onClick = {() => upCnt(i) }>👍</span> { likes[i] } </h4>
+              <h4 onClick={() => {changeIndex(i); setModal(!modal);}}>{t}<span onClick = {() => upCnt(i) }>👍</span> { likes[i] } </h4>
               <p>2월17일 발행</p>
             </div>
           )
         })
       }
       {
-        modal == true ? <Modal 작명={title} edit={() => editTitle()}/> : null
+        modal == true ? <Modal 작명={title} edit={editTitle} title_num={index}/> : null
         // modal == true ? <Modal color='yellow' 작명={title}/> : null
       }
     </div>
@@ -72,7 +73,7 @@ function App() {
 function Modal(props){
   return (
     <div className="modal" style={{background: props.color}}>
-      <h4>{props.작명[0]}</h4>
+      <h4>{props.작명[props.title_num]}</h4>
       <p>날짜</p>
       <p>상세내용</p>
       <button onClick={() => props.edit()}>글수정</button>
