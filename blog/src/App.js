@@ -9,6 +9,7 @@ function App() {
   let [likes, setlikes] = useState([0, 0, 0]);
   let [modal, setModal] = useState(false);
   let [index, changeIndex] = useState(0)
+  let [inputText, changeText] = useState('');
 
   function upCnt(i) {
     let copy_likes = [...likes];
@@ -19,6 +20,24 @@ function App() {
   function editTitle() {
     let copy = [...title];
     copy[0] = '여자 코트 추천';
+    changeTitle(copy);
+  }
+
+  function addTitle(t) {
+    let copy_titles = [...title];
+    let copy_likes = [...likes];
+    copy_titles.unshift(t);
+    copy_likes.unshift(0);
+    console.log(copy_titles);
+    console.log(copy_likes);
+    changeTitle(copy_titles);
+    setlikes(copy_likes);
+  }
+
+  function deleteTitle(i) {
+    let copy = [...title];
+    copy.splice(i, 1);
+    console.log(copy);
     changeTitle(copy);
   }
 
@@ -40,7 +59,7 @@ function App() {
         title.map(function(t, i) {
           return (
             <div className="list">
-              <h4 onClick={() => {changeIndex(i); setModal(!modal);}}>{t}<span onClick = {() => upCnt(i) }>👍</span> { likes[i] } </h4>
+              <h4 onClick={() => {changeIndex(i); setModal(!modal);}}>{t}<span onClick = {(e) => {e.stopPropagation(); upCnt(i)} }>👍</span> { likes[i] } <button onClick={(e) => {e.stopPropagation(); deleteTitle(i);}}>삭제</button> </h4>
               <p>2월17일 발행</p>
             </div>
           )
@@ -50,6 +69,11 @@ function App() {
         modal == true ? <Modal 작명={title} edit={editTitle} title_num={index}/> : null
         // modal == true ? <Modal color='yellow' 작명={title}/> : null
       }
+
+      <input onChange={(e) => {
+        changeText(e.target.value);
+      }}></input>
+      <button onClick={() => inputText.trim().length != 0 ? addTitle(inputText) : null}>추가</button>
     </div>
   );
 }
