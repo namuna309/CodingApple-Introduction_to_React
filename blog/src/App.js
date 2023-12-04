@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import './App.css';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 function App() {
 
@@ -74,6 +74,8 @@ function App() {
         changeText(e.target.value);
       }}></input>
       <button onClick={() => inputText.trim().length != 0 ? addTitle(inputText) : null}>추가</button>
+    
+      <Modal2></Modal2>
     </div>
   );
 }
@@ -105,7 +107,29 @@ function Modal(props){
   )
 }
 
-// 숙제: 글 수정 버튼 누르면 첫 글제목이 '여자코트 추천'으로 바뀌어야함
+// class를 이용한 옛날 React 문법
+class Modal2 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: 'kim',
+      age: 20
+    }
+  }
+  render() {
+    return (
+      <div>안녕 {this.state.name} {this.state.age}
+      {/* state 변경 */}
+      <button onClick={() => {
+        this.setState({age: 21});
+      }}>나이 변경</button>
+      </div>
+      // html...
+      
+    )
+  }
+}
+
 export default App;
 
 // 동적 UI 만드는 스텝
