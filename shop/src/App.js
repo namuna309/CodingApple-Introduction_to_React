@@ -4,15 +4,26 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 
 // 변수 여러개를 가져오려면 import {변수1, 변수2} from 경로
 import data from './data.js';
-import Detail from './container.js';
+import Detail from './routes/Detail.js';
 
 function App() {
 
-  let [shoes] = useState(data);
+  let [shoes, setShoes] = useState(data);
+  let navigate = useNavigate();
+
+  function sortCard() {
+    let copy = [...shoes];
+    copy.sort((a, b) => {
+      if(a.title < b.title) return -1;
+      if(a.title > b.title) return 1;
+      if(a.title == b.title) return 0;
+  })
+    setShoes(copy);
+  }
 
   return (
     <div className="App">
@@ -23,20 +34,27 @@ function App() {
         <Container>
           <Navbar.Brand href="#home">Navbar</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Cart</Nav.Link>
+            <Nav.Link onClick={() => {
+              navigate('./');
+            }
+
+            }>Home</Nav.Link>
+            <Nav.Link onClick={() => {
+              navigate('/detail')
+            }}>Detail</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
       <Button variant="primary">Primary</Button>{' '}
 
-      <Link to="/">홈</Link>
-      <Link to="/detail">상세페이지</Link>
+      {/* <Link to="/">홈</Link>
+      <Link to="/detail">상세페이지</Link> */}
 
       <Routes>
         <Route path='/' element={
           <>
             <div className="main-bg"></div>
+            <Button onClick={() => sortCard()}>상품 재정렬</Button>
             <div className='row'>
               {
                 shoes.map(function (s) {
@@ -48,8 +66,27 @@ function App() {
             </div>
           </>
         } />
-        <Route path="/detail" element={<Detail/>} />
-        <Route path="/about" element={<div>어바웃페이지임</div>} />
+
+        {/* {
+          shoes.map(function(s) {
+            return (
+              <Route path={'/detail/' + (s.id)} element={<Detail shoes={s}/>} />
+            )
+          })
+        } */}
+        <Route path={'/detail/:id'} element={<Detail shoes={shoes}/>} />
+        
+        <Route path="/about" element={<About/>}>
+          <Route path="member" element={<div>멤버임</div>}/>
+          <Route path="location" element={<div>장소임</div>}/>
+        </Route>
+        {/* <Route path="/about/member" element={<div>어바웃페이지임</div>} />
+        <Route path="/about/location" element={<div>어바웃페이지임</div>} /> */}
+        <Route path='event' element={<Event/>}>
+          <Route path="one" element={<div>첫 주문시 양배추즙 무료 증정</div>}/>
+          <Route path="two" element={<div>생일기념 쿠폰받기</div>}/>
+        </Route>
+        <Route path="*" element={<div>없는페이지에요</div>}/>
       </Routes>
 
 
@@ -57,10 +94,6 @@ function App() {
   );
 }
 
-// 숙제
-// 1. 오늘 만든 상품목록을 컴포넌트로 만들어봅시다. 컴포넌트도 길면 다른 파일로 빼도 상관없음 
-// 2. 컴포넌트만들면 그 안에 데이터바인딩도 아마 다시해야겠군요 
-// 3. 반복적인 html이나 컴포넌트를 발견하면 연습삼아 map 반복문을 써봅시다. 
 function Card(props) {
   let shoes = props.shoes;
   return (
@@ -70,6 +103,24 @@ function Card(props) {
       <p>{shoes.content}</p>
     </div>
   );
+}
+
+function About() {
+  return (
+    <div>
+      <h4>회사정보임</h4>
+      <Outlet></Outlet>
+    </div>
+  )
+}
+
+function Event() {
+  return (
+    <div>
+      <h4>오늘의 이벤트</h4>
+      <Outlet></Outlet>
+    </div>
+  )
 }
 
 export default App;
