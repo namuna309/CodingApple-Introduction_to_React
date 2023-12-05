@@ -4,9 +4,11 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { Routes, Route, Link } from 'react-router-dom';
 
 // 변수 여러개를 가져오려면 import {변수1, 변수2} from 경로
 import data from './data.js';
+import Detail from './container.js';
 
 function App() {
 
@@ -14,6 +16,9 @@ function App() {
 
   return (
     <div className="App">
+
+
+
       <Navbar bg="light" data-bs-theme="light">
         <Container>
           <Navbar.Brand href="#home">Navbar</Navbar.Brand>
@@ -24,17 +29,30 @@ function App() {
         </Container>
       </Navbar>
       <Button variant="primary">Primary</Button>{' '}
-    
-      <div className="main-bg"></div>
-      <div className='row'>
-        {
-          shoes.map(function(s) {
-            return (
-              <Card shoes={s}/>
-            )
-          })
-        }
-      </div>
+
+      <Link to="/">홈</Link>
+      <Link to="/detail">상세페이지</Link>
+
+      <Routes>
+        <Route path='/' element={
+          <>
+            <div className="main-bg"></div>
+            <div className='row'>
+              {
+                shoes.map(function (s) {
+                  return (
+                    <Card shoes={s} />
+                  )
+                })
+              }
+            </div>
+          </>
+        } />
+        <Route path="/detail" element={<Detail/>} />
+        <Route path="/about" element={<div>어바웃페이지임</div>} />
+      </Routes>
+
+
     </div>
   );
 }
@@ -47,9 +65,9 @@ function Card(props) {
   let shoes = props.shoes;
   return (
     <div className='col-md-4'>
-      <img src={`https://codingapple1.github.io/shop/shoes${shoes.id + 1}.jpg`} width="80%"/>
-      <h4>{ shoes.title }</h4>
-      <p>{ shoes.content }</p>
+      <img src={`https://codingapple1.github.io/shop/shoes${shoes.id + 1}.jpg`} width="80%" />
+      <h4>{shoes.title}</h4>
+      <p>{shoes.content}</p>
     </div>
   );
 }
