@@ -10,11 +10,24 @@ function Detail(props) {
     let shoes = props.shoes.find((element => element.id == id));
     let [cnt, setCnt] = useState(0);
     let [disp, setDisp] = useState(true);
+    let [al, setAlert] = useState(false);
+    let [txt, setTxt] = useState('');
 
+    // useEffect(() => {
+    //     console.log('안녕');
+    //     let a = setTimeout(() => setDisp(false), 3000);
+    //     return () => {
+    //         clearTimeout(a);
+    //     }
+    // , [cnt]});
     useEffect(() => {
-        console.log('안녕');
-        setTimeout(() => setDisp(false), 3000);
-    })
+        if (al == true) alert("그러지마세요");
+        setAlert(false);
+        return ()=>{
+            setAlert(false);
+        }
+    }, [al]);
+    
     return (
         <div className="container">
             <div className="row">
@@ -29,6 +42,7 @@ function Detail(props) {
                     {
                         disp ? <YellowBox/> : null
                     }
+                    <input type="text" onChange={() => setAlert(true)}></input>
                 </div>
             </div>
         </div>
