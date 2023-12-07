@@ -14,6 +14,9 @@ import Detail from './routes/Detail.js';
 function App() {
 
   let [shoes, setShoes] = useState(data);
+  let [bcnt, setBcnt] = useState(2);
+  let [bdis, setBdis] = useState(true);
+  let [loading, setLoading] = useState('none');
   let navigate = useNavigate();
 
   function sortCard() {
@@ -29,6 +32,7 @@ function App() {
   function addCard(data) {
     let copy = [...shoes, ...data];
     setShoes(copy);
+    setBcnt(bcnt + 1);
   }
 
   return (
@@ -72,16 +76,27 @@ function App() {
                 })
               }
             </div>
-
+            <div className='loading' style={{display: `${loading}`}}><p>로딩중</p></div>
             {/* 더보기 버튼 */}
-            <button onClick={() => {
-              axios.get('https://codingapple1.github.io/shop/data2.json').then((items) => {
-                addCard(items.data);
-              })
-                .catch((e) => {
-                  console.log(`실패함: ${e}`);
-                });
-            }}>더보기</button>
+            {
+              bdis ? <button onClick={() => {
+                setLoading('block');
+                axios.get(`https://codingapple1.github.io/shop/data${bcnt}.json`).then((items) => {
+                  setLoading('none');
+                  addCard(items.data);
+                  axios.get(`https://codingapple1.github.io/shop/data${bcnt + 1}.json`).catch((e) => {
+                    setLoading('none');
+                    console.log(`실패함: ${e}`);
+                    setBdis(false);
+                  })
+                  console.log(bdis);
+                })
+                  .catch((e) => {
+                    console.log(`실패함: ${e}`);
+                  });
+                console.log(bcnt);
+              }}>더보기</button> : null
+            }
           </>
         } />
 
