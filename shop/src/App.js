@@ -27,9 +27,7 @@ function App() {
   }
 
   function addCard(data) {
-    let copy = [...shoes];
-    data.map((d) => copy.push(d));
-    console.log(copy);
+    let copy = [...shoes, ...data];
     setShoes(copy);
   }
 
