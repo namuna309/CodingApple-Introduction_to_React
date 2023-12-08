@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 import './App.css';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -10,6 +10,9 @@ import axios from 'axios';
 // 변수 여러개를 가져오려면 import {변수1, 변수2} from 경로
 import data from './data.js';
 import Detail from './routes/Detail.js';
+
+// Context API
+export let Context1 = createContext();
 
 function App() {
 
@@ -107,7 +110,10 @@ function App() {
             )
           })
         } */}
-        <Route path={'/detail/:id'} element={<Detail shoes={shoes} />} />
+        <Route path={'/detail/:id'} element={
+        <Context1.Provider value={{shoes}}>
+        <Detail shoes={shoes}/>
+        </Context1.Provider>} />
 
         <Route path="/about" element={<About />}>
           <Route path="member" element={<div>멤버임</div>} />
