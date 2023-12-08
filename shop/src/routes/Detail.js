@@ -13,6 +13,7 @@ function Detail(props) {
     let [disp, setDisp] = useState(true);
     let [al, setAlert] = useState(false);
     let [tab, changeTab] = useState(0);
+    let [fade, setFade] = useState('');
 
     // useEffect(() => {
     //     console.log('안녕');
@@ -29,8 +30,18 @@ function Detail(props) {
         }
     }, [al]);
 
+    // 숙제: Detail 컴포넌트 로드시 투명도가 0에서 1로 서서히 증가하는 애니메이션을 주려면?
+    useEffect(() => {
+        setTimeout(() => {
+            setFade('end');
+        }, 10)
+        return () => {
+            setFade('');
+        }
+    }, [id])
+
     return (
-        <div className="container">
+        <div className={`container start ${fade}`}>
             <div className="row">
                 <div className="col-md-6">
                     <img src={`https://codingapple1.github.io/shop/shoes${(shoes.id + 1)}.jpg`} width="100%" />
@@ -75,7 +86,21 @@ function TabContent({tab}) {
     // else if (tab == 2) {
     //     return (<div>내용2</div>);
     // }
-    return [<div>내용0</div>, <div>내용1</div>, <div>내용3</div>][tab]
+    let [fade, setFade] = useState(''); 
+
+    useEffect(() => {
+        setTimeout(() => {
+            setFade('end');
+        }, 10)
+        return () => {
+            setFade('');
+        }
+    }, [tab])
+
+    return <div className={`start ${fade}`}>
+        { [<div>내용0</div>, <div>내용1</div>, <div>내용3</div>][tab]} 
+    </div>
+     
 }
 
 
