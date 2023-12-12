@@ -10,6 +10,7 @@ import axios from 'axios';
 // 변수 여러개를 가져오려면 import {변수1, 변수2} from 경로
 import data from './data.js';
 import Detail from './routes/Detail.js';
+import Cart from './routes/Cart.js';
 
 // Context API
 export let Context1 = createContext();
@@ -126,6 +127,7 @@ function App() {
           <Route path="two" element={<div>생일기념 쿠폰받기</div>} />
         </Route>
         <Route path="*" element={<div>없는페이지에요</div>} />
+        <Route path='/cart' element={<Cart/>}/>
       </Routes>
 
 
