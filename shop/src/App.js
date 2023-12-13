@@ -23,6 +23,8 @@ function App() {
   let [loading, setLoading] = useState('none');
   let navigate = useNavigate();
 
+  
+
   function sortCard() {
     let copy = [...shoes];
     copy.sort((a, b) => {

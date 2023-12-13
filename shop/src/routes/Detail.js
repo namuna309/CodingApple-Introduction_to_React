@@ -28,6 +28,30 @@ function Detail(props) {
     let cart_data = useSelector((state) => state.cart);
     let dispatch = useDispatch();
 
+    useEffect(() => {
+        let watched_items = localStorage.getItem('watched');
+        if (watched_items) {
+            let items = JSON.parse(watched_items);
+            let new_wi = new Set([...items, id]);
+            localStorage.setItem('watched',  JSON.stringify([...new_wi]));
+        } else {
+            let new_item = [id];
+            localStorage.setItem('watched', JSON.stringify(new_item));
+        }
+    },[])
+
+    // useEffect(()=>{
+    //     let watched_items = localStorage.getItem('watched');
+    //     if (watched_items) {
+    //         let items = JSON.parse(watched_items);
+    //         let new_wi = new Set([...items, id]);
+    //         localStorage.setItem('watched', JSON.stringify(new_wi))
+    //     } else {
+    //         let new_item = new Set([id]);
+    //         localStorage.setItems('watched', JSON.stringify(new_item));
+    //     }
+    //   },[]) 
+
     // useEffect(() => {
     //     console.log('안녕');
     //     let a = setTimeout(() => setDisp(false), 3000);
@@ -52,10 +76,6 @@ function Detail(props) {
             setCFade('');
         }
     }, [id])
-
-    useEffect(() => {
-        cart_data.map((d) => console.log(d));
-    }, [cart_data])
 
     return (
         <div className={`container start ${c_fade}`}>
