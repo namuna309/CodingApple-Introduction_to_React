@@ -11,6 +11,7 @@ import axios from 'axios';
 import data from './data.js';
 import Detail from './routes/Detail.js';
 import Cart from './routes/Cart.js';
+import { useQuery } from 'react-query';
 
 // Context API
 export let Context1 = createContext();
@@ -23,7 +24,11 @@ function App() {
   let [loading, setLoading] = useState('none');
   let navigate = useNavigate();
 
-  
+  let result = useQuery(['name'], ()=>
+    axios.get('https://codingapple1.github.io/userdata.json')
+    .then((a)=>{ return a.data })
+  )
+    
 
   function sortCard() {
     let copy = [...shoes];
@@ -62,6 +67,7 @@ function App() {
               navigate('/cart')
             }}>Cart</Nav.Link>
           </Nav>
+          <Nav className='ms-auto'>안녕하세요 { result.isLoading ? '로딩중' : result.data.name }</Nav>
         </Container>
       </Navbar>
       <Button variant="primary">Primary</Button>{' '}
