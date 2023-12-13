@@ -6,6 +6,10 @@ import { Nav } from 'react-bootstrap';
 // Context API
 import { Context1 } from './../App.js';
 
+//redux
+import { addData } from "../store.js";
+import { useDispatch, useSelector } from "react-redux";
+
 
 function Detail(props) {
 
@@ -15,12 +19,14 @@ function Detail(props) {
     let shoes = useContext(Context1).shoes[id];
     // let shoes = ctxt_app.shoes[id]
     // let shoes = props.shoes.find((element => element.id == id));
-    console.log(shoes);
     let [cnt, setCnt] = useState(0);
     let [disp, setDisp] = useState(true);
     let [al, setAlert] = useState(false);
     let [tab, changeTab] = useState(0);
     let [c_fade, setCFade] = useState('');
+
+    let cart_data = useSelector((state) => state.cart);
+    let dispatch = useDispatch();
 
     // useEffect(() => {
     //     console.log('안녕');
@@ -47,6 +53,10 @@ function Detail(props) {
         }
     }, [id])
 
+    useEffect(() => {
+        cart_data.map((d) => console.log(d));
+    }, [cart_data])
+
     return (
         <div className={`container start ${c_fade}`}>
             <div className="row">
@@ -57,7 +67,7 @@ function Detail(props) {
                     <h4 className="pt-5">{shoes.title}</h4>
                     <p>{shoes.content}</p>
                     <p>{shoes.price}원</p>
-                    <button className="btn btn-danger" onClick={() => { setCnt(cnt + 1); setDisp(true) }}>주문하기</button>
+                    <button className="btn btn-danger" onClick={() => { setCnt(cnt + 1); setDisp(true); dispatch(addData({id: shoes.id, name: shoes.title, count: 1}));}}>주문하기</button>
                     {
                         disp ? <YellowBox /> : null
                     }
