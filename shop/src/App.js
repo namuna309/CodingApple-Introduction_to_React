@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, lazy, Suspense } from 'react';
 import './App.css';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -9,12 +9,14 @@ import axios from 'axios';
 
 // 변수 여러개를 가져오려면 import {변수1, 변수2} from 경로
 import data from './data.js';
-import Detail from './routes/Detail.js';
-import Cart from './routes/Cart.js';
+
 import { useQuery } from 'react-query';
 
 // Context API
 export let Context1 = createContext();
+
+const Detail = lazy(() => import('./routes/Detail.js'));
+const Cart = lazy(() => import('./routes/Cart.js'));
 
 function App() {
 
@@ -74,7 +76,7 @@ function App() {
 
       {/* <Link to="/">홈</Link>
       <Link to="/detail">상세페이지</Link> */}
-
+      <Suspense fallback={<div>로딩중임</div>}>
       <Routes>
         <Route path='/' element={
           <>
@@ -141,7 +143,7 @@ function App() {
         <Route path='/cart' element={<Cart/>}/>
       </Routes>
 
-
+      </Suspense>
 
     </div>
   );
